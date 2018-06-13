@@ -1,3 +1,15 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_home',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
 control "V-2227" do
   title "Symbolic links must not be used in the web content directory tree."
   desc  "A symbolic link allows a file or a directory to be referenced using a
@@ -71,5 +83,20 @@ Finally, the target file or directory must be owned by the same owner as the
 link, which should be a privileged account with access to the web content.
 "
   tag "fix": "Disable symbolic links."
-end
 
+    begin
+      doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map!{ |element| element.gsub(/"/, '') }
+
+      describe directory("#{doc_root[0]}") do
+        it { should_not be_symlink }
+      end
+
+      describe command("cat #{APACHE_CONF_DIR}/httpd.conf | grep '^\s*Options Indexes FollowSymLinks$'") do
+        its('stdout') { should_not include 'FollowSymLinks' }
+      end
+
+      describe command("cat #{APACHE_CONF_DIR}/httpd.conf | grep '^\s*Options FollowSymLinks$'") do
+        its('stdout') { should_not include 'FollowSymLinks' }
+      end
+    end
+  end

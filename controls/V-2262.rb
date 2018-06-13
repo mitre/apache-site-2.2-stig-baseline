@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-2262" do
   title "A private web server must utilize an approved TLS version."
   desc  "Transport Layer Security (TLS) encryption is a required security
@@ -58,5 +76,9 @@ to bypass the content switch to access the web sites.
   tag "fix": "Edit the httpd.conf file and set the SSLProtocol to \"ALL -SSLv2
 -SSLv3\" and the SSLEngine to On.  For Apache 2.2.22 and older, set SSLProtocol
 to \"TLSv1\"."
-end
 
+  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf") do
+    its('SSLEngine') { should cmp 'on' }
+    its('SSLProtocol') { should cmp 'all -SSLv2 -SSLv3' }
+  end
+end

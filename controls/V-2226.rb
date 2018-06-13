@@ -1,3 +1,20 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_home',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+only_if do
+  service('nfs').running?
+end
+
+
 control "V-2226" do
   title "Web content directories must not be anonymously shared."
   desc  "Sharing web content is a security risk when a web server is involved.
@@ -34,5 +51,20 @@ ps -ef | grep nfs, ps -ef | grep smb
 If results are returned, determine the shares and confirm they are not in the
 same directory as listed above, If they are, this is a finding. "
   tag "fix": "Remove the shares from the applicable directories."
-end
 
+  begin
+    # had to do some regex'ing to remove extra back slashes
+    doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map!{ |element| element.gsub(/"/, '') }
+    srv_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").ServerRoot.map!{ |element| element.gsub(/"/, '') }
+    nfs_doc_root = command("showmount -e | grep #{doc_root[0]}")
+    nfs_srv_root = command("showmount -e | grep #{srv_root[0]}")
+
+    describe nfs_doc_root do
+      its('stdout') { should_not include doc_root[0] }
+    end
+
+    describe nfs_srv_root do
+      its('stdout') { should_not include srv_root[0] }
+    end
+  end
+end

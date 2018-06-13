@@ -27,5 +27,10 @@ If the following module is not found, this is a finding: \"log_config_module\""
 configure logging.
 
 \"log_config_module\""
-end
 
+  begin
+    describe command("/usr/sbin/httpd -M | grep '^\s*log_config_module'") do
+      its('stdout') { should include "log_config_module" }
+    end
+  end
+end

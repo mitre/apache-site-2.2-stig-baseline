@@ -1,3 +1,15 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_home',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
 control "V-2240" do
   title "The number of allowed simultaneous requests must be set."
   desc  "Resource exhaustion can occur when an unlimited number of concurrent
@@ -27,5 +39,13 @@ this is a finding.
 "
   tag "fix": "Edit the httpd.conf file and set the MaxKeepAliveRequests
 directive to 100 or greater."
-end
 
+  begin
+    keep_alive = apache_conf("#{APACHE_CONF_DIR}/httpd.conf")
+
+    describe keep_alive do
+      its('MaxKeepAliveRequests') { should_not be_nil }
+      its('MaxKeepAliveRequests') { should cmp >= 100 }
+    end
+  end
+end

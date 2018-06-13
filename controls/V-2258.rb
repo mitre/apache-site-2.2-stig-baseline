@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-2258" do
   title "Web client access to the content directories must be restricted to
 read and execute."
@@ -38,5 +56,14 @@ If the permissions assigned to the account for the Apache web server service is
 greater than Read & Execute (R_E), this is a finding."
   tag "fix": "Assign the appropriate permissions to the applicable directories
 and files using the chmod command."
-end
 
+  script_alias = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").ScriptAlias.map!{ |element| element.gsub(/"/, '') }[0].split(" ")[1]
+
+  describe directory(script_alias) do
+    its('owner') { should cmp 'apache' }
+  end
+
+  describe directory(script_alias) do
+    its('mode') { should cmp '0500' }
+  end
+end

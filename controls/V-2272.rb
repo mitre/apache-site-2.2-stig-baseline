@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-2272" do
   title "PERL scripts must use the TAINT option."
   desc  "PERL (Practical Extraction and Report Language) is an interpreted
@@ -83,5 +101,13 @@ in the httpd.conf is used, this satisfies the requirement.
   tag "fix": "Add the TAINT call to the PERL script.
 
 #!/usr/local/bin/perl –T "
-end
 
+
+  only_if do
+    apache_conf("#{APACHE_CONF_DIR}/httpd.conf").PerlTaintCheck
+  end
+
+  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf") do
+    its('PerlTaintCheck') { should cmp "on" }
+  end
+end

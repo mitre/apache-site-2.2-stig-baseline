@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-2270" do
   title "Anonymous FTP user access to interactive scripts is prohibited."
   desc  "The directories containing the CGI scripts, such as PERL, must not be
@@ -32,5 +50,19 @@ group that does not require access, this is a finding.
 accessed via FTP by any group or user that does not require access, remove
 permissions to such directories for all but the web administrators and the SAs.
 Ensure that any such access employs an encrypted connection. "
-end
 
+  describe directory("/var/www/cgi-bin/") do
+    its('owner') { should cmp 'apache' }
+    its('group') { should cmp 'apache' }
+  end
+
+  if directory("/var/www/cgi-shl").exist?
+    its('owner') { should cmp 'apache' }
+    its('group') { should cmp 'apache' }
+  end
+
+  if directory("/var/www/cgi").exist?
+    its('owner') { should cmp 'apache' }
+    its('group') { should cmp 'apache' }
+  end
+end

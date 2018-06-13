@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-2260" do
   title "A web site must not contain a robots.txt file."
   desc  "Search engines are constantly at work on the Internet.  Search engines
@@ -43,5 +61,8 @@ does exist, this is a finding."
   tag "fix": "Remove the robots.txt file from the web site.  If there is
 information on the web site that needs protection from search engines and
 public view, then other methods must be used to safeguard the data."
-end
 
+  describe command("find / -name robots.txt") do
+    its('stdout') { should cmp "" }
+  end
+end

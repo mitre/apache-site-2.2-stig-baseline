@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-2254" do
   title "Only web sites that have been fully reviewed and tested must exist on
 a production web server."
@@ -43,4 +61,3 @@ Construction or Under Development are clear indications that a production web
 server is being used for development. The web administrator will ensure that
 all pages that are in development are not installed on a production web server."
 end
-

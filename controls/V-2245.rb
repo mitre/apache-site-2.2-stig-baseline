@@ -1,3 +1,15 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_home',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
 control "V-2245" do
   title "Each readable web document directory must contain either a default,
 home, index, or equivalent file."
@@ -35,5 +47,13 @@ a directory does not contain an index.html or equivalent default document, this
 is a finding.
 "
   tag "fix": "Add a default document to the applicable directories."
-end
 
+  begin
+    doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map!{ |element| element.gsub(/"/, '') }[0]
+    root_index = command("find #{doc_root} -name index.html")
+
+    describe root_index do
+      its('stdout') { should include 'index.html'}
+    end
+  end
+end

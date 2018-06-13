@@ -1,3 +1,15 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_home',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
 control "V-2249" do
   title "Web server administration must be performed over a secure path or at
 the local console."
@@ -46,5 +58,12 @@ protocols.
 FIPS 140-2 approved TLS versions include TLS V1.0 or greater. "
   tag "fix": "Ensure the web server's administration is only performed over a
 secure path."
-end
 
+  begin
+    httpd_conf = apache_conf("#{APACHE_CONF_DIR}/httpd.conf")
+
+    describe httpd_conf do
+      its('SSLFIPS') { should cmp "on" }
+    end
+  end
+end
