@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-13686" do
   title "Web Administrators must only use encrypted connections for Document
 Root directory uploads."
@@ -23,5 +41,8 @@ uploading files without utilizing approved encryption methods, this is a
 finding."
   tag "fix": "Use only secure encrypted logons and connections for uploading
 files to the web site."
-end
 
+  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf") do
+    its('SSLVerifyClient') { should cmp 'require' }
+  end
+end

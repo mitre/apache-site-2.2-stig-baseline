@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-13688" do
   title "Log file data must contain required data elements."
   desc  "The use of log files is a critical component of the operation of the
@@ -32,5 +50,10 @@ If the web server is not configured to capture the required audit events for
 all sites and virtual directories, this is a finding."
   tag "fix": "Configure the web server to ensure the log file data includes the
 required data elements."
-end
 
+
+  format1 = "%a %A %h %H %l %m %s %t %u %U \\\\\\%{Referer}i\\\\\\ combined"
+  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf").LogFormat.map!{ |element| element.gsub(/"/, '') } do
+    it { should include format1 }
+  end
+end

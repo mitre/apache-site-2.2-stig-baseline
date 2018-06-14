@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-3333" do
   title "The web document (home) directory must be in a separate partition from
 the web server’s system files."
@@ -39,5 +57,12 @@ files or the OS file systems, this is a finding.
 separate partition, other than the OS root partition and the web server’s
 system files.
 "
-end
 
+  doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map!{ |element| element.gsub(/"/, '') }[0]
+  linux_system = command("df /lib/").stdout.split[7]
+  apache_web_dir = command("df #{doc_root}").stdout.split[7]
+
+  describe apache_web_dir do
+    it { should_not cmp linux_system }
+  end
+end

@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-6531" do
   title "Private web servers must require certificates issued from a
 DoD-authorized Certificate Authority."
@@ -24,5 +42,8 @@ grep \"SSLVerifyClient\" /usr/local/apache2/conf/httpd.conf.
 If the value of SSLVerifyClient is not set to “require”, this is a finding."
   tag "fix": "Edit the httpd.conf file and set the value of SSLVerifyClient to
 \"require\"."
-end
 
+  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf") do
+    its('SSLVerifyClient') { should cmp 'require' }
+  end
+end

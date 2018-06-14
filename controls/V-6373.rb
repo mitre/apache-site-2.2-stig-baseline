@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-6373" do
   title "The required DoD banner page must be displayed to authenticated users
 accessing a DoD private website."
@@ -78,4 +96,3 @@ entry, this is a finding."
   tag "fix": "Configure a DoD private website to display the required DoD
 banner page when authentication is required for user access."
 end
-

@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-13689" do
   title "Access to the web server log files must be restricted to
 administrators, web administrators, and auditors."
@@ -39,5 +57,13 @@ this is a finding.
 log files, ensure that only the members of the Auditors group, Administrators,
 and the user assigned to run the web server software is granted permissions to
 read the log files."
-end
 
+
+command("ls #{APACHE_LOG_DIR}/*").stdout.split.each do |log|
+  describe file(log) do
+    its('mode') { should cmp '0640'}
+    its('owner') { should cmp 'apache' }
+    its('group') { should cmp 'apache' }
+  end
+end
+end

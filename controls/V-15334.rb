@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-15334" do
   title "Web sites must utilize ports, protocols, and services according to
 PPSM guidelines."
@@ -29,5 +47,14 @@ as registered and approved for use by the DoD PPSM. Any variation in PPS will
 be documented, registered, and approved by the PPSM. If not, this is a finding."
   tag "fix": "Ensure the web site enforces the use of IANA well-known ports for
 HTTP and HTTPS."
-end
 
+  describe port(80) do
+    it { should be_listening }
+    its('processes') { should include 'httpd' }
+  end
+
+  describe port(443) do
+    it { should be_listening }
+    its('processes') { should include 'httpd' }
+  end
+end

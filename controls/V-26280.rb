@@ -1,3 +1,21 @@
+APACHE_HOME= attribute(
+  'apache_home',
+  description: 'location of apache home directory',
+  default: '/etc/httpd'
+)
+
+APACHE_CONF_DIR= attribute(
+  'apache_conf_dir',
+  description: 'location of apache conf directory',
+  default: '/etc/httpd/conf'
+)
+
+APACHE_LOG_DIR= attribute(
+  'apache_log_dir',
+  description: 'location of apache log directory',
+  default: '/etc/httpd/logs'
+)
+
 control "V-26280" do
   title "The sites error logs must log the correct format."
   desc  "The server error logs are invaluable because they can also be used to
@@ -29,5 +47,9 @@ LogFormat \"%a %A %h %H %l %m %s %t %u %U \\\"%{Referer}i\\\" \" combined.
 If the above value is not returned, this is a finding. "
   tag "fix": "Edit the httpd.conf file and add LogFormat \"%a %A %h %H %l %m %s
 %t %u %U \\\"%{Referer}i\\\" \" combined"
-end
 
+  format1 = "%a %A %h %H %l %m %s %t %u %U \\\\\\%{Referer}i\\\\\\ combined"
+  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf").LogFormat.map!{ |element| element.gsub(/"/, '') } do
+    it { should include format1 }
+  end
+end
