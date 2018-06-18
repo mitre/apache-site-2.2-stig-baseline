@@ -36,5 +36,8 @@ virus scanned before being saved to the document root, this is a finding.
 "
   tag "fix": "Install anti-virus software on the system and set it to
 automatically scan new files that are introduced to the web server."
-end
 
+  describe "This test currently has no automated tests, you must check manually" do
+    skip "This check must be preformed manually"
+  end
+end

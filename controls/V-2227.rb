@@ -85,9 +85,9 @@ link, which should be a privileged account with access to the web content.
   tag "fix": "Disable symbolic links."
 
     begin
-      doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map!{ |element| element.gsub(/"/, '') }
+      doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map{ |element| element.gsub(/"/, '') }[0]
 
-      describe directory("#{doc_root[0]}") do
+      describe directory("#{doc_root}") do
         it { should_not be_symlink }
       end
 

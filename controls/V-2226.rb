@@ -54,17 +54,17 @@ same directory as listed above, If they are, this is a finding. "
 
   begin
     # had to do some regex'ing to remove extra back slashes
-    doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map!{ |element| element.gsub(/"/, '') }
-    srv_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").ServerRoot.map!{ |element| element.gsub(/"/, '') }
+    doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map{ |element| element.gsub(/"/, '') }[0]
+    srv_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").ServerRoot.map{ |element| element.gsub(/"/, '') }[0]
     nfs_doc_root = command("showmount -e | grep #{doc_root[0]}")
     nfs_srv_root = command("showmount -e | grep #{srv_root[0]}")
 
     describe nfs_doc_root do
-      its('stdout') { should_not include doc_root[0] }
+      its('stdout') { should_not include doc_root }
     end
 
     describe nfs_srv_root do
-      its('stdout') { should_not include srv_root[0] }
+      its('stdout') { should_not include srv_root }
     end
   end
 end
