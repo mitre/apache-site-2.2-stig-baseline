@@ -60,4 +60,8 @@ production web server, this is a finding."
 Construction or Under Development are clear indications that a production web
 server is being used for development. The web administrator will ensure that
 all pages that are in development are not installed on a production web server."
+
+  describe "This test currently has no automated tests, you must check manually" do
+    skip "This check must be preformed manually"
+  end
 end

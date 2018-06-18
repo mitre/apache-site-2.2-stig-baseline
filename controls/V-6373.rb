@@ -95,4 +95,8 @@ If the access-controlled website does not display this banner page before
 entry, this is a finding."
   tag "fix": "Configure a DoD private website to display the required DoD
 banner page when authentication is required for user access."
+
+  describe "This test currently has no automated tests, you must check manually" do
+    skip "This check must be preformed manually"
+  end
 end
