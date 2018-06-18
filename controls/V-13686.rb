@@ -9,6 +9,11 @@ APACHE_CONF_DIR= attribute(
   description: 'location of apache conf directory',
   default: '/etc/httpd/conf'
 )
+APACHE_SSL_CONF_DIR= attribute(
+  'apache_ssl_conf_dir',
+  description: 'location of apache ssl conf directory',
+  default: '/etc/httpd/conf.d'
+)
 
 APACHE_LOG_DIR= attribute(
   'apache_log_dir',
@@ -42,7 +47,7 @@ finding."
   tag "fix": "Use only secure encrypted logons and connections for uploading
 files to the web site."
 
-  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf") do
+  describe apache_conf("#{APACHE_SSL_CONF_DIR}/ssl.conf") do
     its('SSLVerifyClient') { should cmp 'require' }
   end
 end

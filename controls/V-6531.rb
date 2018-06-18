@@ -10,6 +10,12 @@ APACHE_CONF_DIR= attribute(
   default: '/etc/httpd/conf'
 )
 
+APACHE_SSL_CONF_DIR= attribute(
+  'apache_ssl_conf_dir',
+  description: 'location of apache ssl conf directory',
+  default: '/etc/httpd/conf.d'
+)
+
 APACHE_LOG_DIR= attribute(
   'apache_log_dir',
   description: 'location of apache log directory',
@@ -40,10 +46,10 @@ decisions."
 grep \"SSLVerifyClient\" /usr/local/apache2/conf/httpd.conf.
 
 If the value of SSLVerifyClient is not set to “require”, this is a finding."
-  tag "fix": "Edit the httpd.conf file and set the value of SSLVerifyClient to
+  tag "fix": "Edit the ssl.conf file and set the value of SSLVerifyClient to
 \"require\"."
 
-  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf") do
+  describe apache_conf("#{APACHE_SSL_CONF_DIR}/ssl.conf") do
     its('SSLVerifyClient') { should cmp 'require' }
   end
 end
