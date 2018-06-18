@@ -10,6 +10,13 @@ APACHE_CONF_DIR= attribute(
   default: '/etc/httpd/conf'
 )
 
+APACHE_SSL_CONF_DIR= attribute(
+  'apache_ssl_conf_dir',
+  description: 'location of apache ssl conf directory',
+  default: '/etc/httpd/conf.d'
+)
+
+
 APACHE_LOG_DIR= attribute(
   'apache_log_dir',
   description: 'location of apache log directory',
@@ -77,7 +84,7 @@ to bypass the content switch to access the web sites.
 -SSLv3\" and the SSLEngine to On.  For Apache 2.2.22 and older, set SSLProtocol
 to \"TLSv1\"."
 
-  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf") do
+  describe apache_conf("#{APACHE_SSL_CONF_DIR}/ssl.conf") do
     its('SSLEngine') { should cmp 'on' }
     its('SSLProtocol') { should cmp 'all -SSLv2 -SSLv3' }
   end
