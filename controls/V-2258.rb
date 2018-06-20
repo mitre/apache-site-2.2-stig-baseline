@@ -57,7 +57,7 @@ greater than Read & Execute (R_E), this is a finding."
   tag "fix": "Assign the appropriate permissions to the applicable directories
 and files using the chmod command."
 
-  script_alias = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").ScriptAlias.map!{ |element| element.gsub(/"/, '') }[0].split(" ")[1]
+  script_alias = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").ScriptAlias.map{ |element| element.gsub(/"/, '') }[0].split(" ")[1]
 
   describe directory(script_alias) do
     its('owner') { should cmp 'apache' }

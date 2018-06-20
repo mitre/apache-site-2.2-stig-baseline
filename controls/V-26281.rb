@@ -49,7 +49,7 @@ If the above value is not returned, this is a finding.
   tag "fix": "Edit the httpd.conf file and enter the name, path and level for
 the CustomLog."
 
-  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf").CustomLog.map!{ |element| element.gsub(/"/, '') }[0] do
+  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf").CustomLog.map{ |element| element.gsub(/"/, '') }[0] do
     it { should cmp 'Logs/access_log'}
   end
 end

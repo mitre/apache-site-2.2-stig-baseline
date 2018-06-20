@@ -49,7 +49,7 @@ is a finding.
   tag "fix": "Add a default document to the applicable directories."
 
   begin
-    doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map!{ |element| element.gsub(/"/, '') }[0]
+    doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map{ |element| element.gsub(/"/, '') }[0]
     root_index = command("find #{doc_root} -name index.html")
 
     describe root_index do

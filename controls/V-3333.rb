@@ -58,7 +58,7 @@ separate partition, other than the OS root partition and the web server’s
 system files.
 "
 
-  doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map!{ |element| element.gsub(/"/, '') }[0]
+  doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map{ |element| element.gsub(/"/, '') }[0]
   linux_system = command("df /lib/").stdout.split[7]
   apache_web_dir = command("df #{doc_root}").stdout.split[7]
 

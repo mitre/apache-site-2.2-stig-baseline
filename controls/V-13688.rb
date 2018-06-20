@@ -53,7 +53,7 @@ required data elements."
 
 
   format1 = "%a %A %h %H %l %m %s %t %u %U \\\\\\%{Referer}i\\\\\\ combined"
-  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf").LogFormat.map!{ |element| element.gsub(/"/, '') } do
+  describe apache_conf("#{APACHE_CONF_DIR}/httpd.conf").LogFormat.map{ |element| element.gsub(/"/, '') } do
     it { should include format1 }
   end
 end
