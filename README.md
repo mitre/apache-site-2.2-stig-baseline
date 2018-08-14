@@ -1,6 +1,6 @@
 # apache_site_baseline
 
-Baseline InSpec profile testing configuration of Apache HTTPD Server per Apache site 2.0 STIG
+Baseline InSpec profile testing configuration of Apache HTTPD Server per Apache site 2.2 STIG
 
 ## Description
 
