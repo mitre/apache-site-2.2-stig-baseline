@@ -1,9 +1,10 @@
 # apache_site_baseline
 
 Baseline InSpec profile testing configuration of Apache HTTPD Server per Apache site 2.0 STIG
+
 ## Description
 
-This InSpec compliance profile is a collection of automated tests for Apache site compliance within the [DISA Apache 2.2 STIG](https://iasecontent.disa.mil/stigs/zip/U_Apache_2-2_UNIX_V1R10_STIG.zip).
+This InSpec compliance profile is a collection of automated tests for Apache site compliance with the [DISA Apache 2.2 STIG](https://iasecontent.disa.mil/stigs/zip/U_Apache_2-2_UNIX_V1R10_STIG.zip).
 
 InSpec is an open-source run-time framework and rule language used to specify compliance, security, and policy requirements for testing any node in your infrastructure.
 
@@ -40,8 +41,11 @@ $ inspec exec apache_site_bsaeline --attrs attributes.yml
 $ inspec exec apache_site_baseline --controls a_control_name
 ```
 
-## Configuration
-You may change the default settings of the profile by creating/modifying an attributes.yml with the following example values.
+## Attributes (Configuration)
+You may alter the default settings of the profile by creating/modifying a yaml 
+encoded 'attributes' file. The following yaml code details the currently 
+supported attributes, and can also be viewed as the attributes.yml file in this 
+repository.
 
 ``` yaml
 # Description: Apache home Directory
