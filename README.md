@@ -1,12 +1,13 @@
 # apache_site_baseline
 
-Baseline InSpec profile testing configuration of Apache HTTPD Server per Apache 
-site 2.2 STIG
+Baseline InSpec profile testing configuration of a web site hosted through 
+Apache HTTPD Server per Apache site 2.2 STIG
 
 ## Description
 
 This InSpec compliance profile is a collection of automated tests for Apache site 
-compliance with the [DISA Apache 2.2 STIG](https://iasecontent.disa.mil/stigs/zip/U_Apache_2-2_UNIX_V1R10_STIG.zip).
+compliance with the 
+[DISA Apache 2.2 STIG](https://iasecontent.disa.mil/stigs/zip/U_Apache_2-2_UNIX_V1R10_STIG.zip).
 
 InSpec is an open-source run-time framework and rule language used to specify 
 compliance, security, and policy requirements for testing any node in your infrastructure.
