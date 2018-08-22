@@ -3,7 +3,7 @@ title: APACHE SITE 2.2 for Unix Baseline
 maintainer: MITRE InSpec Team
 copyright: MITRE InSpec Team
 copyright_email: inspec@mitre.org
-license: Apache 2.0
+license: Apache-2.0
 summary: Baseline Apache Site security testing
 ############ XCCDF
 Benchmark: APACHE SITE 2.2 for Unix Security Technical Implementation Guide
