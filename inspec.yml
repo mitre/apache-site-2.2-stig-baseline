@@ -4,5 +4,8 @@ maintainer: MITRE InSpec Team
 copyright: MITRE InSpec Team
 copyright_email: inspec@mitre.org
 license: Apache-2.0
-summary: Baseline Apache Site security testing
+summary: InSpec Profile testing compliance with DISA STIG for Apache site 2.2
+description: >
+  InSpec profile verifying secure implementation of Apache 2.2 site per DISA
+  STIG https://iasecontent.disa.mil/stigs/zip/U_Apache_2-2_UNIX_V1R10_STIG.zip
 version: 0.1.0
