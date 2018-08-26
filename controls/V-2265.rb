@@ -28,7 +28,7 @@ find / -name *.jpp
 If either file type is found, this is a finding."
   tag "fix": "Remove the unnecessary files from the web server."
 
-  describe command("find / -name *.java") do
+  describe command("find / -name *.java -type f") do
     its('stdout') { should cmp "" }
   end
 
