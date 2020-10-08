@@ -9,3 +9,4 @@ description: >
   InSpec profile verifying secure implementation of Apache 2.2 site per DISA
   STIG https://iasecontent.disa.mil/stigs/zip/U_Apache_2-2_UNIX_V1R10_STIG.zip
 version: 0.1.0
+inspec_version: ">= 4.0"
