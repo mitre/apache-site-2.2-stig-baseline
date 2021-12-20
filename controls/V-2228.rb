@@ -5,7 +5,7 @@ APACHE_HOME= attribute(
 )
 
 APACHE_CONF_DIR= attribute(
-  'apache_home',
+  'apache_conf_dir',
   description: 'location of apache conf directory',
   default: '/etc/httpd/conf'
 )
@@ -46,13 +46,13 @@ If the AllowOverride None is not set, this is a finding.
   tag "fix": "Ensure the CGI (or equivalent i.e. scripts) directory has access
 controls IAW the WEB Services STIG."
 
-# begin
-#   doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map{ |element| element.gsub(/"/, '') }[0] + '>'
-#   web_root_idx = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").params['<Directory'].map{ |element| element.gsub(/"/, '') }.index("#{doc_root}")
-#   allow_override = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").params['AllowOverride'][web_root_idx]
-#
-#   describe allow_override do
-#     it { should cmp 'None' }
-#   end
-# end
+ begin
+   doc_root = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").DocumentRoot.map{ |element| element.gsub(/"/, '') }[0] + '>'
+   web_root_idx = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").params['<Directory'].map{ |element| element.gsub(/"/, '') }.index("#{doc_root}")
+   allow_override = apache_conf("#{APACHE_CONF_DIR}/httpd.conf").params['AllowOverride'][web_root_idx]
+
+   describe allow_override do
+     it { should cmp 'None' }
+   end
+ end
 end
