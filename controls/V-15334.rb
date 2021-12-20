@@ -49,10 +49,8 @@ be documented, registered, and approved by the PPSM. If not, this is a finding."
 HTTP and HTTPS."
 
   if virtualization.system == 'docker'
-      describe "Since this apache instance is running in a container, perform manual review to determine if HTTP and HTTPS are used in
-accordance with well known ports (e.g., 80 and 443) or those ports and services as registered and approved for use." do
-      skip "Since this apache instance is running in a container, perform manual review to determine if HTTP and HTTPS are used in
-accordance with well known ports (e.g., 80 and 443) or those ports and services as registered and approved for use." 
+      describe "Since this apache instance is running in a container, perform manual review to determine if HTTP and HTTPS are used in accordance with well known ports (e.g., 80 and 443) or those ports and services as registered and approved for use." do
+      skip "Since this apache instance is running in a container, perform manual review to determine if HTTP and HTTPS are used in accordance with well known ports (e.g., 80 and 443) or those ports and services as registered and approved for use." 
       end
   
   else
