@@ -44,5 +44,10 @@ servers are isolated from the general population LAN. Users should not have the
 ability to bypass the content switch to access the web sites.
 "
   tag "fix": "Configure the private web site to use a valid DoD certificate."
+ 
+  describe "Perform a manual review to determine if this site uses a valid certificate." do
+      skip "Perform a manual review to determine if this site uses a valid certificate." 
+  end
+  
 end
 

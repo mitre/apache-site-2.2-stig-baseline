@@ -48,13 +48,23 @@ be documented, registered, and approved by the PPSM. If not, this is a finding."
   tag "fix": "Ensure the web site enforces the use of IANA well-known ports for
 HTTP and HTTPS."
 
-  describe port(80) do
-    it { should be_listening }
-    its('processes') { should include 'httpd' }
+  if virtualization.system == 'docker'
+      describe "Since this apache instance is running in a container, perform manual review to determine if HTTP and HTTPS are used in accordance with well known ports (e.g., 80 and 443) or those ports and services as registered and approved for use." do
+      skip "Since this apache instance is running in a container, perform manual review to determine if HTTP and HTTPS are used in accordance with well known ports (e.g., 80 and 443) or those ports and services as registered and approved for use." 
+      end
+  
+  else
+  
+    describe port(80) do
+      it { should be_listening }
+      its('processes') { should include 'httpd' }
+    end
+
+    describe port(443) do
+      it { should be_listening }
+      its('processes') { should include 'httpd' }
+    end
+  
   end
 
-  describe port(443) do
-    it { should be_listening }
-    its('processes') { should include 'httpd' }
-  end
 end

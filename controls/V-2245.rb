@@ -5,7 +5,7 @@ APACHE_HOME= attribute(
 )
 
 APACHE_CONF_DIR= attribute(
-  'apache_home',
+  'apache_conf_dir',
   description: 'location of apache conf directory',
   default: '/etc/httpd/conf'
 )
